@@ -1,0 +1,15 @@
+Tools for generating lists of private elements (classes and packages) in the
+Hadoop codebase.
+
+Private means @Private, @LimitedPrivate or @Unstable.
+
+Compile using:
+
+  javac -d classes src/*.java
+
+Then generate a list of private classes and packages using (adjust for
+appropriate Common and MapReduce checkouts):
+
+  ./list-private-elements.sh ~/workspace/hadoop-common-trunk/src/java/ ~/workspace/hadoop-mapreduce-trunk/src/java/ \
+    | sort > private-elements
+

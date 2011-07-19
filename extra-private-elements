@@ -1,0 +1,16 @@
+# Extra packages and classes that are not found by the automatic processor, for
+# various reasons
+#
+# All of HDFS is implicitly Private
+org.apache.hadoop.hdfs 
+#
+# InMemoryReader was deleted in trunk
+org.apache.hadoop.mapred.IFile$InMemoryReader
+#
+# Isolation Runner was deleted in trunk
+org.apache.hadoop.mapred.IsolationRunner
+org.apache.hadoop.mapred.IsolationRunner$FakeUmbilical
+#
+# org.apache.hadoop.mapred.JobInProgress$Counter moved to JobCounter,
+# but org.apache.hadoop.mapred.JobInProgress is LimitedPrivate, so exclude Counter
+org.apache.hadoop.mapred.JobInProgress$Counter
