@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for f in $(find $@ -name package-info.java | xargs grep -l InterfaceAudience.Private); do
+for f in $(find $@ -name package-info.java | xargs grep -l 'InterfaceAudience.\(LimitedPrivate\|Private\)'); do
   grep package $f | awk '{print $2}' | sed '$s/.$//'
 done
 

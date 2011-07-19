@@ -1,4 +1,5 @@
 org.apache.hadoop.HadoopVersionAnnotation
+org.apache.hadoop.classification.tools
 org.apache.hadoop.conf.ConfServlet
 org.apache.hadoop.conf.ConfServlet$BadFormatException
 org.apache.hadoop.fs.BufferedFSInputStream
@@ -41,6 +42,7 @@ org.apache.hadoop.fs.kfs.KFSConfigKeys
 org.apache.hadoop.fs.kfs.KFSImpl
 org.apache.hadoop.fs.kfs.KFSInputStream
 org.apache.hadoop.fs.kfs.KFSOutputStream
+org.apache.hadoop.fs.local
 org.apache.hadoop.fs.local.LocalConfigKeys
 org.apache.hadoop.fs.local.LocalFs
 org.apache.hadoop.fs.local.RawLocalFs
@@ -124,6 +126,7 @@ org.apache.hadoop.fs.viewfs.InodeTree$MountPoint
 org.apache.hadoop.fs.viewfs.InodeTree$ResolveResult
 org.apache.hadoop.fs.viewfs.InodeTree$ResultKind
 org.apache.hadoop.hdfs 
+org.apache.hadoop.http
 org.apache.hadoop.http.HttpServer
 org.apache.hadoop.http.HttpServer$QuotingInputFilter
 org.apache.hadoop.http.HttpServer$QuotingInputFilter$RequestQuoter
@@ -144,6 +147,7 @@ org.apache.hadoop.io.WritableName
 org.apache.hadoop.io.compress.bzip2
 org.apache.hadoop.io.compress.zlib
 org.apache.hadoop.io.file.tfile.ByteArray
+org.apache.hadoop.io.retry
 org.apache.hadoop.io.serializer.Deserializer
 org.apache.hadoop.io.serializer.DeserializerComparator
 org.apache.hadoop.io.serializer.JavaSerialization
@@ -153,6 +157,7 @@ org.apache.hadoop.io.serializer.JavaSerializationComparator
 org.apache.hadoop.io.serializer.Serialization
 org.apache.hadoop.io.serializer.SerializationFactory
 org.apache.hadoop.io.serializer.Serializer
+org.apache.hadoop.ipc
 org.apache.hadoop.ipc.metrics
 org.apache.hadoop.ipc.metrics.RpcDetailedMetrics
 org.apache.hadoop.ipc.metrics.RpcMetrics
@@ -419,6 +424,7 @@ org.apache.hadoop.metrics.jvm
 org.apache.hadoop.metrics.jvm.JvmMetrics
 org.apache.hadoop.metrics.spi.AbstractMetricsContext.MetricMap
 org.apache.hadoop.metrics.spi.AbstractMetricsContext.TagMap
+org.apache.hadoop.metrics.util
 org.apache.hadoop.metrics.util.MBeanUtil
 org.apache.hadoop.metrics.util.MetricsBase
 org.apache.hadoop.metrics.util.MetricsDynamicMBeanBase
