@@ -5,7 +5,7 @@ Private means @Private, @LimitedPrivate or @Unstable.
 
 Compile using:
 
-  javac -d classes src/*.java
+  mvn compile
 
 Then generate a list of private classes and packages using (adjust for
 appropriate Common and MapReduce checkouts):

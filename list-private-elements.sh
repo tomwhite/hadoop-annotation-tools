@@ -5,7 +5,7 @@ for f in $(find $@ -name package-info.java | xargs grep -l 'InterfaceAudience.\(
 done
 
 find $@ -name *.java \
-  | xargs apt -cp classes -nocompile \
+  | xargs apt -cp target/classes -nocompile \
       -factory InternalApiAnnotationProcessorFactory 2> /dev/null
 
 cat extra-private-elements \
