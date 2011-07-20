@@ -5,6 +5,7 @@ import com.sun.mirror.apt.AnnotationProcessor;
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
 import com.sun.mirror.declaration.AnnotationMirror;
 import com.sun.mirror.declaration.MethodDeclaration;
+import com.sun.mirror.declaration.Modifier;
 import com.sun.mirror.declaration.TypeDeclaration;
 import com.sun.mirror.util.DeclarationVisitor;
 import com.sun.mirror.util.SimpleDeclarationVisitor;
@@ -12,11 +13,11 @@ import com.sun.mirror.util.SimpleDeclarationVisitor;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public class InternalApiAnnotationProcessor implements AnnotationProcessor {
   
   private static final String METHODS = "methods";
+  private static final String PUBLIC_TYPES = "public-types";
   
   private static final List<String> annotations = Arrays.asList(
     "org.apache.hadoop.classification.InterfaceAudience.Private",
@@ -34,6 +35,8 @@ public class InternalApiAnnotationProcessor implements AnnotationProcessor {
     DeclarationVisitor visitor;
     if (env.getOptions().containsKey("-Aformat=" + METHODS)) {
       visitor = new MethodVisitor();
+    } else if (env.getOptions().containsKey("-Aformat=" + PUBLIC_TYPES)) {
+        visitor = new PublicTypeVisitor();
     } else {
       visitor = new TypeVisitor();
     }
@@ -42,6 +45,23 @@ public class InternalApiAnnotationProcessor implements AnnotationProcessor {
     }
   }
   
+  private static class PublicTypeVisitor extends SimpleDeclarationVisitor {
+    public void visitTypeDeclaration(TypeDeclaration d) {
+      process(d);
+    }
+    private void process(TypeDeclaration d) {
+      Collection<AnnotationMirror> mirrors = d.getAnnotationMirrors();
+      for (AnnotationMirror mirror : mirrors) {
+        if (!annotations.contains(getAnnotationName(mirror)) && isPublic(d)) {
+          printNestedTypes(d, d.getQualifiedName());
+          return;
+        }
+      }
+    }
+    private boolean isPublic(TypeDeclaration d) {
+      return d.getModifiers().contains(Modifier.PUBLIC);
+    }
+  }
 
   private static class TypeVisitor extends SimpleDeclarationVisitor {
     public void visitTypeDeclaration(TypeDeclaration d) {
