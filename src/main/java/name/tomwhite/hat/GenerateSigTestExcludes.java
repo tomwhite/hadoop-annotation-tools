@@ -1,5 +1,8 @@
 package name.tomwhite.hat;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+
 import java.io.File;
 import java.net.URL;
 import java.util.Collection;
@@ -58,28 +61,54 @@ public class GenerateSigTestExcludes {
     SortedSet<String> allClasses = new TreeSet<String>();
     allClasses.addAll(db.getClassIndex().keySet());
     
+    // Classes in private packages are private by implication
+    // We can't just exclude the package, since subpackages will also be excluded
+    Set<String> packageClasses = packageClasses(classes, allClasses);
+    
     // Nested classes of private classes are private by implication
     Set<String> nestedClasses = nestedClasses(classes, allClasses);
     
     SortedSet<String> sortedClasses = new TreeSet<String>(classes);
+    sortedClasses.addAll(packageClasses);
     sortedClasses.addAll(nestedClasses);
     for (String classname : sortedClasses) {
-      if (classname.endsWith(".package-info")) {
-        String pkg = classname.substring(0, classname.lastIndexOf('.'));
-        System.out.printf("-PackageWithoutSubpackages %s\n", pkg);
-      } else {
-        System.out.printf("-Package %s\n", classname);
+      if (!classname.endsWith(".package-info")) {
+        System.out.println(classname);
       }
     }
     
   }
-
+  
+  private static Set<String> packageClasses(Collection<String> classes, SortedSet<String> allClasses) {
+    Set<String> packageClasses = new HashSet<String>();
+    Collection<String> packages = Collections2.filter(allClasses, new Predicate<String>() {
+      @Override public boolean apply(String input) {
+        return input.endsWith(".package-info");
+      }
+    });
+    for (String packageName : packages) {
+      String prefix = packageName.substring(0, packageName.lastIndexOf('.') + 1);
+      for (String c : subSetStartingWith(allClasses, prefix)) {
+        // Assume classes start with an upper case character
+        if (Character.isUpperCase(c.charAt(prefix.length()))) {
+          packageClasses.add(c);
+        }
+      }
+    }
+    return packageClasses;
+  }
+  
   private static Set<String> nestedClasses(Collection<String> classes, SortedSet<String> allClasses) {
     Set<String> nestedClasses = new HashSet<String>();
     for (String classname : classes) {
-      nestedClasses.addAll(allClasses.subSet(classname + '$', classname + ('$' + 1)));
+      nestedClasses.addAll(subSetStartingWith(allClasses, classname + '$'));
     }
     return nestedClasses;
+  }
+  
+  private static SortedSet<String> subSetStartingWith(SortedSet<String> set, String prefix) {
+    char last = prefix.charAt(prefix.length() - 1);
+    return set.subSet(prefix, prefix.substring(0, prefix.length() - 1) + (last+1));
   }
 
 }

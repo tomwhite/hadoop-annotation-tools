@@ -1,7 +1,10 @@
 Tools for generating lists of private elements (classes and packages) in the
-Hadoop codebase.
+Hadoop codebase. Private means @Private, @LimitedPrivate or @Unstable.
 
-Private means @Private, @LimitedPrivate or @Unstable.
+There are two tools available.
+
+Source Code Tool
+================
 
 Compile using:
 
@@ -13,3 +16,8 @@ appropriate Common and MapReduce checkouts):
   ./list-private-elements.sh ~/workspace/hadoop-common-trunk/src/java/ ~/workspace/hadoop-mapreduce-trunk/src/java/ \
     | sort > private-elements
 
+Classfile Tool
+==============
+
+  mvn compile
+  mvn -q exec:java -Dexec.mainClass="name.tomwhite.hat.GenerateSigTestExcludes" -Dexec.args="..." 

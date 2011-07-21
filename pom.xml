@@ -8,6 +8,11 @@
   <name>hadoop-annotation-tools</name>
   <dependencies>
     <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>r09</version>
+    </dependency>
+    <dependency>
       <groupId>net.sf.scannotation</groupId>
       <artifactId>scannotation</artifactId>
       <version>1.0.2</version>
